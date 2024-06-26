@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
-    "product.apps.ProductConfig"
+    "product.apps.ProductConfig",
+    "shop.apps.ShopConfig",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
