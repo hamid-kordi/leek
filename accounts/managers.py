@@ -1,4 +1,4 @@
-from django.contrib.auth.model import BaseUserManager
+from django.contrib.auth.models import BaseUserManager
 
 
 class UserManager(BaseUserManager):
@@ -16,5 +16,22 @@ class UserManager(BaseUserManager):
             name=name,
         )
         user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, name, phone_number, password, user_name):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        user = self.create_user(
+            email,
+            name=name,
+            phone_number=phone_number,
+            password=password,
+            user_name=user_name,
+        )
+        user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
