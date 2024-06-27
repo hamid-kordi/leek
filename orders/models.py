@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from product.models import Product
 
@@ -7,7 +7,7 @@ from product.models import Product
 
 
 class Orders(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_user")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="order_user")
     paid = models.BooleanField(default=False)
     update = models.DateTimeField(auto_now=True)
     create = models.DateTimeField(auto_now_add=True)

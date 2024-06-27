@@ -1,5 +1,6 @@
 from django.db import models
-from accounts.models import User
+
+from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 from product.models import Product
 from accounts.models import Report
@@ -8,8 +9,11 @@ from accounts.models import Report
 
 
 class Shop(models.Model):
+
     name = models.CharField(max_length=30)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=shope_user)
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name=shope_user
+    )
     address = models.CharField(max_length=150)
     phoone_number = models.CharField(max_length=11)
     available = models.BooleanField(default=True)
@@ -27,7 +31,7 @@ class ShopOrder(models.Model):
     send = models.BooleanField(default=False)
     quantity = models.IntegerField()
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_shop_order"
+        get_user_model(), on_delete=models.CASCADE, related_name="user_shop_order"
     )
     report = models.ForeignKey(
         Report, on_delete=models.CASCADE, related_name="report_shop"
