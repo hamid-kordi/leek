@@ -25,4 +25,5 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="order_product"
     )
-    
+    price = models.CharField(max_length=30)
+    quentity = models.IntegerField()
