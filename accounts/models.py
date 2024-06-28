@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 from .managers import UserManager
 from ckeditor.fields import RichTextField
-from product.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
-
 
 # Create your models here.
 
@@ -28,22 +26,3 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-
-
-class Comments(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user_comment"
-    )
-    created = models.DateTimeField(auto_now_add=True)
-    update = models.DateTimeField(auto_now=True)
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="comment_product"
-    )
-    rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    comment = RichTextField()
-
-# class Report(models.Model):
-
-# salamati

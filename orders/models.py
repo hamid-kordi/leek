@@ -7,7 +7,9 @@ from product.models import Product
 
 
 class Orders(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="order_user")
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="order_user"
+    )
     paid = models.BooleanField(default=False)
     update = models.DateTimeField(auto_now=True)
     create = models.DateTimeField(auto_now_add=True)
@@ -27,3 +29,18 @@ class OrderItem(models.Model):
     )
     price = models.CharField(max_length=30)
     quentity = models.IntegerField()
+
+
+class Report(models.Model):
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="user_report"
+    )
+    order = models.ForeignKey(
+        Orders, on_delete=models.CASCADE, related_name="order_report", default=None
+    )
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_report", default=None
+    )
+    created = models.DateTimeField(auto_now=True)
+    text = RichTextField()
+    degreee = models.CharField(max_length=5)
