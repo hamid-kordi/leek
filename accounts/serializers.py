@@ -9,10 +9,19 @@ def clean_email(value):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = User
-        fields = ("user_name", "name", "phone_number", "password", "email")
-        extra_kwargs = {"password": {"write_only": True}}
+        fields = ("user_name", "name", "phone_number", "password", "email", "password2")
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "email": {"validators": (clean_email,)},
+        }
+
+    def create(self, validated_data):
+        del validated_data["password2"]
+        return User.objects.create_user(**validated_data)
 
     # is_active = serializers.BooleanField()
     # is_superuser = serializers.BooleanField()
@@ -23,7 +32,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("user name can not be admin")
         return value
 
-    # def validate(self, data):
-    #     if data["password"] != data["password2"]:
-    #         raise serializers.ValidationError("password 1and 2 not match")
-    #     return data
+    def validate(self, data):
+        if data["password"] != data["password2"]:
+            raise serializers.ValidationError("password 1and 2 not match")
+        return data
