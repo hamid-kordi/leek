@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "product.apps.ProductConfig",
     "shop.apps.ShopConfig",
     "ckeditor",
-    'accounts'
+    "accounts",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,12 @@ WSGI_APPLICATION = "leek.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "leek",
+        "USER": "username",
+        "PASSWORD": 1234,
+        "HOST": "127.0.0.1",
+        "PORT": 5433,
     }
 }
 
@@ -128,5 +133,3 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
-
-

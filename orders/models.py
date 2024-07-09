@@ -21,6 +21,10 @@ class Orders(models.Model):
     def __str__(self):
         return f"order>> {self.slug}--{self.user.user_name}--{self.create}"
 
+    class Meta:
+        verbose_name = "order"
+        verbose_name_plural = "orders"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name="orders")

@@ -19,6 +19,10 @@ class Category(models.Model):
     )
     slug = models.SlugField(blank=False, null=False)
 
+    class Meta:
+        verbose_name = "category"
+        verbose_name_plural = "categories"
+
 
 class Product(models.Model):
     categoris = models.ForeignKey(
@@ -52,6 +56,10 @@ class Comments(models.Model):
     )
     comment = RichTextField()
 
+    class Meta:
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
+
 
 class ShopOrder(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT, related_name="shope_order")
@@ -64,6 +72,3 @@ class ShopOrder(models.Model):
     user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="user_shop_order"
     )
-
-
-

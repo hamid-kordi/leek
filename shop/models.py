@@ -12,11 +12,12 @@ class Shop(models.Model):
         get_user_model(), on_delete=models.CASCADE, related_name='shope_user'
     )
     address = models.CharField(max_length=150)
-    phoone_number = models.CharField(max_length=11)
+    phone_number = models.CharField(max_length=11)
     available = models.BooleanField(default=True)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+
 
 
 
