@@ -1,34 +1,40 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .serializers import UserRegisterSerializer
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # from .forms import RegisterUserForm, UserLoginForm
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import User
+from rest_framework import status
 
 # Create your views here.
 
 
 class ViewRegister(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        form = self.form_class
-        return render(request, "accounts/home.html", {"form": form})
+        users = User.objects.all()
+        ser_data = UserRegisterSerializer(users, many=True)
+        return Response(ser_data.data)
 
     def post(self, request):
         ser_data = UserRegisterSerializer(data=request.POST)
         if ser_data.is_valid():
             ser_data.create(ser_data.validated_data)
-            User.objects.create_user(
-                email=ser_data.validated_data["email"],
-                user_name=ser_data.validated_data["user_name"],
-                name=ser_data.validated_data["name"],
-                phone_number=ser_data.validated_data["phone_number"],
-                password=ser_data.validated_data["password"],
-            )
-            return Response(ser_data.data)
-        return Response(ser_data.errors)
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ViewLoginUser:
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = "work with authorize"
+        return Response(content)
 
 
 # class HomeView(APIView):
