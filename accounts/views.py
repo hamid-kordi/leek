@@ -13,13 +13,7 @@ from rest_framework import status
 # Create your views here.
 
 
-class ViewRegister(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        users = User.objects.all()
-        ser_data = UserRegisterSerializer(users, many=True)
-        return Response(ser_data.data)
+class ViewRegisterUser(APIView):
 
     def post(self, request):
         ser_data = UserRegisterSerializer(data=request.POST)
@@ -29,12 +23,25 @@ class ViewRegister(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ViewLoginUser:
+class ViewLoginUser(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        content = "work with authorize"
-        return Response(content)
+        users = User.objects.all()
+        ser_data = UserRegisterSerializer(users, many=True)
+        return Response(ser_data.data)
+
+    def put(self, request, pk):
+        user = User.objects.get(pk=pk)
+        ser_edit_data = UserRegisterSerializer(
+            instance=user, data=request.POST, partial=True
+        )
+        if ser_edit_data.is_valid():
+            ser_edit_data.save()
+            return Response(ser_edit_data.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    # def delete(self, request):
 
 
 # class HomeView(APIView):
