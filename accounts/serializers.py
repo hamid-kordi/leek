@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import User
 
 
@@ -13,7 +12,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = (
+            "id",
+            "is_seller",
+            "user_name",
+            "name",
+            "email",
+            "phone_number",
+            "password",
+            "password2",
+        )
         extra_kwargs = {
             "password": {"write_only": True},
             "email": {"validators": (clean_email,)},

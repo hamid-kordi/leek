@@ -5,7 +5,7 @@ from .models import User
 
 # Register your models here.
 class UserAdmin(BaseUserAdmin):
-    list_display = ("email", "phone_number", "is_admin", "is_superuser", "is_seller")
+    list_display = ("id","email", "phone_number", "is_admin", "is_superuser", "is_seller")
     list_filter = ("is_admin",)
     readonly_fields = ("last_login",)
     fieldsets = (

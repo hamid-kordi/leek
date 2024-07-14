@@ -13,6 +13,20 @@ from rest_framework import status
 # Create your views here.
 
 
+class ViewListUser(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk=None):
+        if pk is not None:
+            users = User.objects.get(pk=pk)
+            ser_data = UserRegisterSerializer(users)
+        else:
+            users = User.objects.all()
+            ser_data = UserRegisterSerializer(users, many=True)
+
+    return Response(ser_data.data)
+
+
 class ViewRegisterUser(APIView):
 
     def post(self, request):
@@ -23,13 +37,8 @@ class ViewRegisterUser(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ViewLoginUser(APIView):
+class ViewEditUser(APIView):
     permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        users = User.objects.all()
-        ser_data = UserRegisterSerializer(users, many=True)
-        return Response(ser_data.data)
 
     def put(self, request, pk):
         user = User.objects.get(pk=pk)
@@ -39,9 +48,16 @@ class ViewLoginUser(APIView):
         if ser_edit_data.is_valid():
             ser_edit_data.save()
             return Response(ser_edit_data.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(ser_edit_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # def delete(self, request):
+
+class ViewDeleteUser(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        user = User.objects.get(pk=pk)
+        user.delete()
+        return Response({"meesages": "user deleted"}, status=status.HTTP_200_OK)
 
 
 # class HomeView(APIView):

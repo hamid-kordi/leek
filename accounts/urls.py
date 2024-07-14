@@ -6,8 +6,15 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 app_name = "accounts"
 
 urlpatterns = [
-    path("register/", views.ViewRegisterUser.as_view(), name="home"),
-        path("get_user_data/", views.ViewLoginUser.as_view(), name="user_get_data"),
+    path("register/", views.ViewRegisterUser.as_view(), name="rgister_user"),
+    path("list_users/", views.ViewListUser.as_view(), name="list_users"),
+    path(
+        "list_user/<int:pk>/",
+        views.ViewListUser.as_view(),
+        name="list_user",
+    ),
+    path("edit_user/", views.ViewEditUser.as_view(), name="edit_user"),
+    path("delete_user/", views.ViewEditUser.as_view(), name="delete_user"),
     # path("api-token-auth/", auth_token.obtain_auth_token),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),

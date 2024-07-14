@@ -2,7 +2,9 @@ from django.contrib.auth.models import BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, user_name, name, phone_number, password):
+    def create_user(
+        self, email, user_name, name, phone_number, password, is_seller=False
+    ):
         if not email:
             raise ValueError("User most have an email address")
         if not phone_number:
@@ -14,12 +16,22 @@ class UserManager(BaseUserManager):
             phone_number=phone_number,
             email=self.normalize_email(email),
             name=name,
+            is_seller=is_seller,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, phone_number, password, user_name):
+    def create_superuser(
+        self,
+        email,
+        name,
+        phone_number,
+        password,
+        user_name,
+        is_active=False,
+        is_seller=False,
+    ):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -30,6 +42,8 @@ class UserManager(BaseUserManager):
             phone_number=phone_number,
             password=password,
             user_name=user_name,
+            is_active=is_active,
+            is_seller=is_seller,
         )
         user.is_admin = True
         user.is_superuser = True
