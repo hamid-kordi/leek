@@ -4,7 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+<<<<<<< HEAD
 from .permissions import IsOrderUser
+=======
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+>>>>>>> dev
 from .models import OrderItem, Orders, Report
 from rest_framework import status
 from django.shortcuts import get_object_or_404
