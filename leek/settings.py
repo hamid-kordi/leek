@@ -153,3 +153,12 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_THROTTLE CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle"
+        " rest_framework. throttling.UserRateThrottle"
+    ],
+    " DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day "},
+}
