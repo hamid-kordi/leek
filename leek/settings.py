@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
+
+
 """
 
 from datetime import timedelta
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -157,8 +160,18 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE CLASSES": [
-        "rest_framework.throttling.AnonRateThrottle"
-        " rest_framework. throttling.UserRateThrottle"
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+        "rest_framework.throttling.ScopedRateThrottle",
     ],
     " DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day "},
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
