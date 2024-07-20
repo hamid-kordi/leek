@@ -44,3 +44,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         if data["password"] != data["password2"]:
             raise serializers.ValidationError("password 1and 2 not match")
         return data
+
+
+class UserEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("user_name","name","phone_number","is_seller","email")
+
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "email": {"validators": (clean_email,)},
+        } 
+    def validate_user_name(self,value):
+        if value == "admin":
+            raise serializers.ValidationError("user name can not be admin")
+        return value
+
+

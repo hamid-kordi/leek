@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .serializers import UserRegisterSerializer
+from .serializers import UserRegisterSerializer, UserEditSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ViewSet
 from .permissions import IsUser
+from drf_spectacular.utils import extend_schema
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # from .forms import RegisterUserForm, UserLoginForm
@@ -20,7 +21,7 @@ from rest_framework.decorators import action
 class ViewUserRegisteration(ViewSet):
     query_set = User.objects.all()
     authentication_classes = [JWTAuthentication]
-    permission_classes = (IsAuthenticated, IsUser)
+    # permission_classes = (IsAuthenticated, IsUser)
 
     def retrieve(self, request, pk=None):
         users = User.objects.all(pk=pk)
@@ -33,6 +34,11 @@ class ViewUserRegisteration(ViewSet):
         ser_data = UserRegisterSerializer(users, many=True)
         return Response(ser_data.data)
 
+    @extend_schema(
+        request=UserRegisterSerializer,
+        responses={201: UserRegisterSerializer},
+        description="Endpoint for user registration",
+    )
     def create(self, request):
         ser_data = UserRegisterSerializer(data=request.POST)
         if ser_data.is_valid():
@@ -40,10 +46,15 @@ class ViewUserRegisteration(ViewSet):
             return Response(ser_data.data, status=status.HTTP_201_CREATED)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def partial_update(self, request, pk=None):
-        user = User.objects.all(pk=pk)
-        ser_edit_data = UserRegisterSerializer(
-            instance=user, data=request.POST, partial=True
+    @extend_schema(
+        request=UserEditSerializer,
+        responses={201: UserEditSerializer},
+        description="Endpoint for user registration",
+    )
+    def update(self, request, pk=None):
+        user = User.objects.get(pk=pk)
+        ser_edit_data = UserEditSerializer(
+            instance=user, data=request.data, partial=True
         )
         if ser_edit_data.is_valid():
             ser_edit_data.save()
