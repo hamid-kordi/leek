@@ -9,7 +9,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ("is_admin",)
     readonly_fields = ("last_login",)
     fieldsets = (
-        ("Main", {"fields": ("email", "phone_number", "name", "password","user_name")}),
+        ("Main", {"fields": ("email", "phone_number", "name", "password","user_name","is_seller")}),
         (
             "Permissions",
             {

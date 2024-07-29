@@ -13,13 +13,13 @@ class Orders(models.Model):
     paid = models.BooleanField(default=False)
     update = models.DateTimeField(auto_now=True)
     create = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(null=False)
+    
     discount = models.IntegerField(null=True, blank=True, default=None)
     report = RichTextField(null=True, blank=True)
     situation = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"order>> {self.slug}--{self.user.user_name}--{self.create}"
+        return f"order>>{self.id}--{self.user.user_name}--{self.create}"
 
     class Meta:
         verbose_name = "order"
@@ -33,6 +33,9 @@ class OrderItem(models.Model):
     )
     price = models.CharField(max_length=30)
     quentity = models.IntegerField()
+
+    def __str__(slef):
+        return f"{order.id}--{order.user.user_name}-{order.create}"
 
 
 class Report(models.Model):

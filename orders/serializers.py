@@ -5,7 +5,7 @@ from .models import OrderItem, Orders, Report
 class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
-        Model = OrderItem
+        model = OrderItem
         fields = ("id", "order", "product", "price", "quentity")
 
 
@@ -13,8 +13,8 @@ class OrdersSerializer(serializers.ModelSerializer):
     data = serializers.SerializerMethodField()
 
     class Meta:
-        Model = Orders
-        fields = ("id", "user", "paid", "discount", "report", "situation")
+        model = Orders
+        fields = ("id", "user", "paid", "discount", "report","data","situation","update","create")
 
     def get_data(self, obj):
         result = obj.orders.all()
@@ -23,5 +23,5 @@ class OrdersSerializer(serializers.ModelSerializer):
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = Report
+        model = Report
         fields = ("id", "user", "order", "product", "text", "degreee")

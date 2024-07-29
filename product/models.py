@@ -17,11 +17,13 @@ class Category(models.Model):
         null=True,
         blank=True,
     )
-    slug = models.SlugField(blank=False, null=False)
 
     class Meta:
         verbose_name = "category"
         verbose_name_plural = "categories"
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Product(models.Model):
@@ -30,7 +32,6 @@ class Product(models.Model):
     )
     price = models.CharField(max_length=15)
     name = models.CharField(max_length=60)
-    slug = models.SlugField()
     shope = models.ForeignKey(
         Shop, on_delete=models.CASCADE, related_name="shop_category"
     )

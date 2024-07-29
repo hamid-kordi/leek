@@ -17,6 +17,8 @@ class Shop(models.Model):
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+    def __str__(self):
+        return f"{self.name}--{self.user.user_name}"
 
 
 

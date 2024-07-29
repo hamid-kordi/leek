@@ -5,7 +5,7 @@ from .models import Shop
 
 
 class ShopAdmin(admin.ModelAdmin):
-    list_display = ["name", "user", "available", "rating", "phone_number"]
+    list_display = ["id","name", "user", "available", "rating", "phone_number"]
 
 
 admin.site.register(Shop, ShopAdmin)

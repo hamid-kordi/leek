@@ -24,12 +24,12 @@ class ViewUserRegisteration(ViewSet):
     # permission_classes = (IsAuthenticated, IsUser)
 
     def retrieve(self, request, pk=None):
-        users = User.objects.all(pk=pk)
+        users = User.objects.get(pk=pk)
         ser_data = UserRegisterSerializer(users)
         return Response(ser_data.data)
 
     # @action(detail=True, methods=["get"])
-    def list(self, request, pk=None):
+    def list(self, request):
         users = User.objects.all()
         ser_data = UserRegisterSerializer(users, many=True)
         return Response(ser_data.data)
@@ -49,7 +49,7 @@ class ViewUserRegisteration(ViewSet):
     @extend_schema(
         request=UserEditSerializer,
         responses={201: UserEditSerializer},
-        description="Endpoint for user registration",
+        description="Endpoint for user edit",
     )
     def update(self, request, pk=None):
         user = User.objects.get(pk=pk)
@@ -62,6 +62,12 @@ class ViewUserRegisteration(ViewSet):
         return Response(ser_edit_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        user = User.objects.all(pk=pk)
+        user = User.objects.get(pk=pk)
         user.delete()
         return Response({"meesages": "user deleted"}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"])
+    def get_user_is_seller(self, request):
+        users = User.objects.filter(is_seller=True)
+        srz_data = UserRegisterSerializer(users, many=True)
+        return Response(data=srz_data.data, status=status.HTTP_200_OK)

@@ -5,7 +5,7 @@ from .models import Category, Product, Comments, ShopOrder
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = ["id",
         "name",
         "is_sub",
         "sub_category",
@@ -13,14 +13,14 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["categoris", "name", "shope", "rating", "available"]
+    list_display = ["id","categoris", "name", "shope", "rating", "available"]
     ordering = [
         "create",
     ]
 
 
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = ["id",
         "user",
         "product",
         "rating",
@@ -29,7 +29,7 @@ class CommentsAdmin(admin.ModelAdmin):
 
 
 class ShopOrderAdmin(admin.ModelAdmin):
-    list_display = ["user", "shop", "product", "paid", "send", "quantity"]
+    list_display = ["id","user", "shop", "product", "paid", "send", "quantity"]
 
 
 admin.site.register(Category, CategoryAdmin)

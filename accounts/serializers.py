@@ -21,6 +21,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "phone_number",
             "password",
             "password2",
+            "is_admin"
         )
         extra_kwargs = {
             "password": {"write_only": True},
